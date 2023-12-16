@@ -66,10 +66,6 @@ main() {
     echo "  ${cya}sudo dd bs=4K seek=8 if=idbloader.img of=/dev/sdX conv=notrunc${rst}"
     echo "  ${cya}sudo dd bs=4K seek=2048 if=u-boot.itb of=/dev/sdX conv=notrunc,fsync${rst}"
     echo
-    echo "${blu}optionally, flash to spi (apt install mtd-utils):${rst}"
-    echo "  ${blu}sudo flashcp -Av idbloader.img /dev/mtd0${rst}"
-    echo "  ${blu}sudo flashcp -Av u-boot.itb /dev/mtd2${rst}"
-    echo
 }
 
 cp_to_debian() {
