@@ -7,7 +7,7 @@
 # /boot after a kernel is package removed
 
 version="$1"
-target="/boot/rk3588-nanopi-r6c.dtb-${version}"
+target="/boot/rk3588s-nanopi-r6c.dtb-${version}"
 
 # passing the kernel version is required
 if [ -z "${version}" ]; then

@@ -13,6 +13,6 @@ if [ -z "${version}" ]; then
         exit 2
 fi
 
-chmod 644 "/boot/nanopi-r6c.dtb-${version}"
+chmod 644 "/boot/rk3588s-nanopi-r6c.dtb-${version}"
 chmod 600 "/boot/System.map-${version}"
 chmod 600 "/boot/vmlinuz-${version}"

@@ -54,7 +54,7 @@ main() {
     fi
 
     if is_param 'links' "$@"; then
-        local rkf rkfl='rk3588-nanopi-r6c.dts rk3588.dtsi rk3588s.dtsi rk3588-pinctrl.dtsi rockchip-pinconf.dtsi'
+        local rkf rkfl='rk3588s-nanopi-r6c.dts rk3588s.dtsi rk3588-pinctrl.dtsi rockchip-pinconf.dtsi'
         for rkf in $rkfl; do
             ln -sfv "$rkpath/$rkf"
         done
@@ -63,7 +63,7 @@ main() {
     fi
 
     # build
-    local dt dts='rk3588-nanopi-r6c'
+    local dt dts='rk3588s-nanopi-r6c'
     local fldtc='-Wno-interrupt_provider -Wno-unique_unit_address -Wno-unit_address_vs_reg -Wno-avoid_unnecessary_addr_size -Wno-alias_paths -Wno-graph_child_address -Wno-simple_bus_reg'
     for dt in $dts; do
         gcc -I "linux-$lv/include" -E -nostdinc -undef -D__DTS__ -x assembler-with-cpp -o "${dt}-top.dts" "$rkpath/${dt}.dts"

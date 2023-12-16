@@ -67,7 +67,7 @@ main() {
     [ -f "$uboot_itb" ] || { echo "unable to fetch: $uboot_itb"; exit 4; }
 
     # dtb
-    local dtb=$(download "$cache" "https://github.com/inindev/nanopi-r6/releases/download/v12.6.7-rc5/rk3588-nanopi-r6c.dtb")
+    local dtb=$(download "$cache" "https://github.com/inindev/nanopi-r6/releases/download/v12.6.7-rc5/rk3588s-nanopi-r6c.dtb")
     [ -f "$dtb" ] || { echo "unable to fetch $dtb"; exit 4; }
 
     # setup media

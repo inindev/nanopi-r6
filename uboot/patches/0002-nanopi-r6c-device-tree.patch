@@ -6,9 +6,9 @@ Subject: [PATCH 2/2] nanopi-r6c device tree
 Signed-off-by: John Clark <inindev@gmail.com>
 ---
  arch/arm/dts/Makefile              |   1 +
- arch/arm/dts/rk3588-nanopi-r6c.dts | 750 +++++++++++++++++++++++++++++
+ arch/arm/dts/rk3588s-nanopi-r6c.dts | 750 +++++++++++++++++++++++++++++
  2 files changed, 751 insertions(+)
- create mode 100644 arch/arm/dts/rk3588-nanopi-r6c.dts
+ create mode 100644 arch/arm/dts/rk3588s-nanopi-r6c.dts
 
 diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
 index 1be08c5fdc..f471aed01c 100644
@@ -18,15 +18,15 @@ index 1be08c5fdc..f471aed01c 100644
  	rk3588-edgeble-neu6b-io.dtb \
  	rk3588-evb1-v10.dtb \
  	rk3588-nanopc-t6.dtb \
-+	rk3588-nanopi-r6c.dtb \
++	rk3588s-nanopi-r6c.dtb \
  	rk3588s-orangepi-5.dtb \
  	rk3588-orangepi-5-plus.dtb \
  	rk3588-quartzpro64.dtb \
-diff --git a/arch/arm/dts/rk3588-nanopi-r6c.dts b/arch/arm/dts/rk3588-nanopi-r6c.dts
+diff --git a/arch/arm/dts/rk3588s-nanopi-r6c.dts b/arch/arm/dts/rk3588s-nanopi-r6c.dts
 new file mode 100644
 index 0000000000..3447069564
 --- /dev/null
-+++ b/arch/arm/dts/rk3588-nanopi-r6c.dts
++++ b/arch/arm/dts/rk3588s-nanopi-r6c.dts
 @@ -0,0 +1,750 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +

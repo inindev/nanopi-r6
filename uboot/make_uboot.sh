@@ -53,7 +53,7 @@ main() {
     rm -f 'idbloader.img' 'u-boot.itb'
     if ! is_param 'inc' "$@"; then
         make -C u-boot distclean
-        make -C u-boot nanopi-r6c-rk3588_defconfig
+        make -C u-boot nanopi-r6c-rk3588s_defconfig
     fi
     make -C u-boot -j$(nproc) BL31="$atf_file" ROCKCHIP_TPL="$tpl_file"
     ln -sfv 'u-boot/idbloader.img'
