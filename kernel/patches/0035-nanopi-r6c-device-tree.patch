@@ -1,4 +1,4 @@
-From a0983182b9e07d4b3fc5f19490f70446b54649a2 Mon Sep 17 00:00:00 2001
+From bbc25e0859e47d2199f4c1c6a218e0685bd45c7e Mon Sep 17 00:00:00 2001
 From: John Clark <inindev@gmail.com>
 Date: Sat, 16 Dec 2023 12:13:16 +0000
 Subject: [PATCH 35/36] nanopi-r6c device tree
@@ -6,8 +6,8 @@ Subject: [PATCH 35/36] nanopi-r6c device tree
 Signed-off-by: John Clark <inindev@gmail.com>
 ---
  .../devicetree/bindings/arm/rockchip.yaml     |   6 +
- .../boot/dts/rockchip/rk3588s-nanopi-r6c.dts  | 722 ++++++++++++++++++
- 2 files changed, 728 insertions(+)
+ .../boot/dts/rockchip/rk3588s-nanopi-r6c.dts  | 706 ++++++++++++++++++
+ 2 files changed, 712 insertions(+)
  create mode 100644 arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dts
 
 diff --git a/Documentation/devicetree/bindings/arm/rockchip.yaml b/Documentation/devicetree/bindings/arm/rockchip.yaml
@@ -29,10 +29,10 @@ index 5f7c6c4aa..73b828bd5 100644
            - const: friendlyarm,nanopc-t6
 diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dts b/arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dts
 new file mode 100644
-index 000000000..ea903c774
+index 000000000..f2eb24eb2
 --- /dev/null
 +++ b/arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dts
-@@ -0,0 +1,722 @@
+@@ -0,0 +1,706 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +
 +/dts-v1/;
@@ -117,17 +117,6 @@ index 000000000..ea903c774
 +		regulator-boot-on;
 +		regulator-min-microvolt = <5000000>;
 +		regulator-max-microvolt = <5000000>;
-+	};
-+
-+	vcc_3v3_sd_s0: vcc-3v3-sd-s0-regulator {
-+		compatible = "regulator-fixed";
-+		enable-active-low;
-+		gpios = <&gpio4 RK_PB4 GPIO_ACTIVE_LOW>;
-+		regulator-name = "vcc_3v3_sd_s0";
-+		regulator-boot-on;
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		vin-supply = <&vcc_3v3_s3>;
 +	};
 +
 +	vcc3v3_pcie2x1l1: vcc3v3-pcie2x1l1 {
@@ -344,12 +333,6 @@ index 000000000..ea903c774
 +		};
 +	};
 +
-+	sdmmc {
-+		sd_s0_pwr: sd-s0-pwr {
-+			rockchip,pins = <4 RK_PB4 RK_FUNC_GPIO &pcfg_pull_up>;
-+		};
-+	};
-+
 +	usb-typec {
 +		typec5v_pwren: typec5v-pwren {
 +			rockchip,pins = <1 RK_PD2 RK_FUNC_GPIO &pcfg_pull_none>;
@@ -381,12 +364,13 @@ index 000000000..ea903c774
 +&sdmmc {
 +	bus-width = <4>;
 +	cap-sd-highspeed;
++	cd-gpios = <&gpio0 RK_PA4 GPIO_ACTIVE_LOW>;
 +	disable-wp;
 +	max-frequency = <150000000>;
 +	no-mmc;
 +	no-sdio;
 +	sd-uhs-sdr104;
-+	vmmc-supply = <&vcc_3v3_sd_s0>;
++	vmmc-supply = <&vcc_3v3_s3>;
 +	vqmmc-supply = <&vccio_sd_s0>;
 +	status = "okay";
 +};
