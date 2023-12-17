@@ -1,4 +1,4 @@
-From f300468fedb3436f95eb7de3edc90960aa80b52f Mon Sep 17 00:00:00 2001
+From 2266c1dd6dc55910a84b28502ee86aa854e508af Mon Sep 17 00:00:00 2001
 From: John Clark <inindev@gmail.com>
 Date: Sat, 16 Dec 2023 00:27:59 +0000
 Subject: [PATCH 2/2] nanopi-r6c device tree
@@ -7,8 +7,8 @@ Signed-off-by: John Clark <inindev@gmail.com>
 ---
  arch/arm/dts/Makefile                       |   1 +
  arch/arm/dts/rk3588s-nanopi-r6c-u-boot.dtsi |  15 +
- arch/arm/dts/rk3588s-nanopi-r6c.dts         | 704 ++++++++++++++++++++
- 3 files changed, 720 insertions(+)
+ arch/arm/dts/rk3588s-nanopi-r6c.dts         | 710 ++++++++++++++++++++
+ 3 files changed, 726 insertions(+)
  create mode 100644 arch/arm/dts/rk3588s-nanopi-r6c-u-boot.dtsi
  create mode 100644 arch/arm/dts/rk3588s-nanopi-r6c.dts
 
@@ -47,10 +47,10 @@ index 0000000000..3b2666b9ec
 +};
 diff --git a/arch/arm/dts/rk3588s-nanopi-r6c.dts b/arch/arm/dts/rk3588s-nanopi-r6c.dts
 new file mode 100644
-index 0000000000..00b2172969
+index 0000000000..92a88197fc
 --- /dev/null
 +++ b/arch/arm/dts/rk3588s-nanopi-r6c.dts
-@@ -0,0 +1,704 @@
+@@ -0,0 +1,710 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +
 +/dts-v1/;
@@ -203,22 +203,29 @@ index 0000000000..00b2172969
 +&gmac1 {
 +	clock_in_out = "output";
 +	phy-handle = <&rgmii_phy1>;
-+	phy-mode = "rgmii-rxid";
-+	pinctrl-names = "default";
++	phy-mode = "rgmii";
 +	pinctrl-0 = <&gmac1_miim
-+			     &gmac1_tx_bus2
-+			     &gmac1_rx_bus2
-+			     &gmac1_rgmii_clk
-+			     &gmac1_rgmii_bus>;
-+
-+	snps,no-vlhash;
-+	snps,reset-gpio = <&gpio3 RK_PB7 GPIO_ACTIVE_LOW>;
-+	snps,reset-active-low;
-+	/* Reset time is 20ms, 100ms for rtl8211f */
-+	snps,reset-delays-us = <0 20000 100000>;
-+
-+	tx_delay = <0x42>;
++				 &gmac1_tx_bus2
++				 &gmac1_rx_bus2
++				 &gmac1_rgmii_clk
++				 &gmac1_rgmii_bus>;
++	pinctrl-names = "default";
++	tx_delay = <0x3a>;
++	rx_delay = <0x3e>;
 +	status = "okay";
++};
++
++&mdio1 {
++	rgmii_phy1: ethernet-phy@1 {
++		/* RTL8211F */
++		compatible = "ethernet-phy-id001c.c916";
++		reg = <0x1>;
++		pinctrl-names = "default";
++		pinctrl-0 = <&rtl8211f_rst>;
++		reset-assert-us = <20000>;
++		reset-deassert-us = <100000>;
++		reset-gpios = <&gpio3 RK_PB7 GPIO_ACTIVE_LOW>;
++	};
 +};
 +
 +&i2c0 {
@@ -298,13 +305,6 @@ index 0000000000..00b2172969
 +	};
 +};
 +
-+&mdio1 {
-+	rgmii_phy1: ethernet-phy@1 {
-+		compatible = "ethernet-phy-ieee802.3-c22";
-+		reg = <0x1>;
-+	};
-+};
-+
 +// 2.5 ethernet (mux 2)
 +&pcie2x1l1 {
 +	pinctrl-names = "default";
@@ -346,6 +346,12 @@ index 0000000000..00b2172969
 +
 +		pcie2_2_rst: pcie2-2-rst {
 +			rockchip,pins = <3 RK_PD1 RK_FUNC_GPIO &pcfg_pull_none>;
++		};
++	};
++
++	rtl8211f {
++		rtl8211f_rst: rtl8211f-rst {
++			rockchip,pins = <3 RK_PB7 RK_FUNC_GPIO &pcfg_pull_none>;
 +		};
 +	};
 +
