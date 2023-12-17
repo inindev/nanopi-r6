@@ -1,9 +1,9 @@
 # nanopi-r6
 #### *Stock Debian ARM64 Linux for the NanoPi R6C*
 
-This Debian ARM64 Linux image is built directly from official packages using the Debian [Debootstrap](https://wiki.debian.org/Debootstrap) utility, see: https://github.com/inindev/nanopi-r6/blob/main/debian/nanopi-r6c/make_debian_img.sh#L126
+This Debian ARM64 Linux image is built directly from official packages using the Debian [Debootstrap](https://wiki.debian.org/Debootstrap) utility, see: https://github.com/inindev/nanopi-r6/blob/main/debian/make_debian_img.sh#L128
 
-Patches are directly available from the Debian repos using the built-in apt package manager, see: https://github.com/inindev/nanopi-r6/blob/main/debian/make_debian_img.sh#L351-L358
+Patches are directly available from the Debian repos using the built-in apt package manager, see: https://github.com/inindev/nanopi-r6/blob/main/debian/make_debian_img.sh#L355-L362
 
 * Note: The kernel in this bundle is from kernel.org and will not get updates from debian.
 
@@ -14,7 +14,7 @@ Patches are directly available from the Debian repos using the built-in apt pack
 
 **1. download the appropriate image**
 ```
-wget https://github.com/inindev/nanopi-r6c/releases/download/v12-6.7-rc5/nanopi-r6c_bookworm-v12-6.7-rc5.img.xz
+wget https://github.com/inindev/nanopi-r6/releases/download/v12-6.7-rc5/nanopi-r6c_bookworm-v12-6.7-rc5.img.xz
 ```
 
 <br/>
@@ -111,7 +111,7 @@ Using the steps in the first section above, create a removable MMC card and boot
 
 **2. download the appropriate image to the booted MMC card and image the internal eMMC**
 ```
-wget https://github.com/inindev/nanopi-r6c/releases/download/v12-6.7-rc5/nanopi-r6c_bookworm-v12-6.7-rc5.img.xz
+wget https://github.com/inindev/nanopi-r6/releases/download/v12-6.7-rc5/nanopi-r6c_bookworm-v12-6.7-rc5.img.xz
 sudo su
 xzcat nanopi-r6c_bookworm-v12-6.7-rc5.img.xz > /dev/mmcblk1
 sync
@@ -142,7 +142,7 @@ Using the steps in the first section above, create a removable MMC card and boot
 
 **2. download the image to the booted MMC card and image the internal NVMe**
 ```
-wget https://github.com/inindev/nanopi-r6c/releases/download/v12-6.7-rc5/nanopi-r6c_bookworm-v12-6.7-rc5.img.xz
+wget https://github.com/inindev/nanopi-r6/releases/download/v12-6.7-rc5/nanopi-r6c_bookworm-v12-6.7-rc5.img.xz
 sudo su
 xzcat nanopi-r6c_bookworm-v12-6.7-rc5.img.xz > /dev/nvme0n1
 sync
@@ -154,8 +154,8 @@ sync
 
 The last step is to prepare the internal eMMC to host u-boot. The eMMC must not contain a bootable partition or it will be preferred for boot over the internal NVMe. Start by downloading the two u-boot files:
 ```
-wget https://github.com/inindev/nanopi-r6c/releases/download/v12-6.7-rc5/idbloader.img
-wget https://github.com/inindev/nanopi-r6c/releases/download/v12-6.7-rc5/u-boot.itb
+wget https://github.com/inindev/nanopi-r6/releases/download/v12-6.7-rc5/idbloader.img
+wget https://github.com/inindev/nanopi-r6/releases/download/v12-6.7-rc5/u-boot.itb
 ```
 
 Erase the internal eMMC (the device is actually ```/dev/mmcblk1``` but X is placed where 1 belongs to prevent a copy paste mistake)
