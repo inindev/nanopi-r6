@@ -1,4 +1,4 @@
-From 7f79e2a7cb346760cd440e702017dbd7ce58b7c6 Mon Sep 17 00:00:00 2001
+From f46ba05aeb0300b1c8d999d44caca26e6fbf2817 Mon Sep 17 00:00:00 2001
 From: John Clark <inindev@gmail.com>
 Date: Sat, 16 Dec 2023 12:13:16 +0000
 Subject: [PATCH 35/36] nanopi-r6c device tree
@@ -6,8 +6,9 @@ Subject: [PATCH 35/36] nanopi-r6c device tree
 Signed-off-by: John Clark <inindev@gmail.com>
 ---
  .../devicetree/bindings/arm/rockchip.yaml     |   6 +
+ arch/arm64/boot/dts/rockchip/Makefile         |   1 +
  .../boot/dts/rockchip/rk3588s-nanopi-r6c.dts  | 710 ++++++++++++++++++
- 2 files changed, 716 insertions(+)
+ 3 files changed, 717 insertions(+)
  create mode 100644 arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dts
 
 diff --git a/Documentation/devicetree/bindings/arm/rockchip.yaml b/Documentation/devicetree/bindings/arm/rockchip.yaml
@@ -27,6 +28,17 @@ index 5f7c6c4aa..73b828bd5 100644
        - description: FriendlyElec NanoPC T6
          items:
            - const: friendlyarm,nanopc-t6
+diff --git a/arch/arm64/boot/dts/rockchip/Makefile b/arch/arm64/boot/dts/rockchip/Makefile
+index a18f33bf0..8cf54d3ee 100644
+--- a/arch/arm64/boot/dts/rockchip/Makefile
++++ b/arch/arm64/boot/dts/rockchip/Makefile
+@@ -108,5 +108,6 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588-rock-5b.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588-turing-rk1.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-indiedroid-nova.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-khadas-edge2.dtb
++dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-nanopi-r6c.dts
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-rock-5a.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-orangepi-5.dtb
 diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dts b/arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dts
 new file mode 100644
 index 000000000..cff573d4b
