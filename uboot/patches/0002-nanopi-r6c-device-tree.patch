@@ -1,4 +1,4 @@
-From 2266c1dd6dc55910a84b28502ee86aa854e508af Mon Sep 17 00:00:00 2001
+From 1ba2d24632cd66f380863c2f4b8cbaea40211bfb Mon Sep 17 00:00:00 2001
 From: John Clark <inindev@gmail.com>
 Date: Sat, 16 Dec 2023 00:27:59 +0000
 Subject: [PATCH 2/2] nanopi-r6c device tree
@@ -47,7 +47,7 @@ index 0000000000..3b2666b9ec
 +};
 diff --git a/arch/arm/dts/rk3588s-nanopi-r6c.dts b/arch/arm/dts/rk3588s-nanopi-r6c.dts
 new file mode 100644
-index 0000000000..92a88197fc
+index 0000000000..cff573d4b3
 --- /dev/null
 +++ b/arch/arm/dts/rk3588s-nanopi-r6c.dts
 @@ -0,0 +1,710 @@
@@ -377,9 +377,9 @@ index 0000000000..92a88197fc
 +	no-sdio;
 +	no-sd;
 +	non-removable;
++	max-frequency = <150000000>;
 +	mmc-hs400-1_8v;
 +	mmc-hs400-enhanced-strobe;
-+	full-pwr-cycle-in-suspend;
 +	status = "okay";
 +};
 +

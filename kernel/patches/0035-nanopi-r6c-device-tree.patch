@@ -1,4 +1,4 @@
-From 0dd8474e543721555c3bdfb8ab18354315f6fb3c Mon Sep 17 00:00:00 2001
+From 7f79e2a7cb346760cd440e702017dbd7ce58b7c6 Mon Sep 17 00:00:00 2001
 From: John Clark <inindev@gmail.com>
 Date: Sat, 16 Dec 2023 12:13:16 +0000
 Subject: [PATCH 35/36] nanopi-r6c device tree
@@ -29,7 +29,7 @@ index 5f7c6c4aa..73b828bd5 100644
            - const: friendlyarm,nanopc-t6
 diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dts b/arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dts
 new file mode 100644
-index 000000000..92a88197f
+index 000000000..cff573d4b
 --- /dev/null
 +++ b/arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dts
 @@ -0,0 +1,710 @@
@@ -359,9 +359,9 @@ index 000000000..92a88197f
 +	no-sdio;
 +	no-sd;
 +	non-removable;
++	max-frequency = <150000000>;
 +	mmc-hs400-1_8v;
 +	mmc-hs400-enhanced-strobe;
-+	full-pwr-cycle-in-suspend;
 +	status = "okay";
 +};
 +
