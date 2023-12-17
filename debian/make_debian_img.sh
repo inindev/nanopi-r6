@@ -169,7 +169,7 @@ main() {
     rm -fv "$mountpt/etc/ssh/ssh_host_"*
 
     # generate machine id on first boot
-    rm -fv "$mountpt/etc/machine-id"
+    echo -n > "$mountpt/etc/machine-id"
 
     # reduce entropy on non-block media
     [ -b "$media" ] || fstrim -v "$mountpt"
