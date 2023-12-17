@@ -1,4 +1,4 @@
-From bbc25e0859e47d2199f4c1c6a218e0685bd45c7e Mon Sep 17 00:00:00 2001
+From a20d060c708676f382ca05d35c6093c3f0af573d Mon Sep 17 00:00:00 2001
 From: John Clark <inindev@gmail.com>
 Date: Sat, 16 Dec 2023 12:13:16 +0000
 Subject: [PATCH 35/36] nanopi-r6c device tree
@@ -6,8 +6,8 @@ Subject: [PATCH 35/36] nanopi-r6c device tree
 Signed-off-by: John Clark <inindev@gmail.com>
 ---
  .../devicetree/bindings/arm/rockchip.yaml     |   6 +
- .../boot/dts/rockchip/rk3588s-nanopi-r6c.dts  | 706 ++++++++++++++++++
- 2 files changed, 712 insertions(+)
+ .../boot/dts/rockchip/rk3588s-nanopi-r6c.dts  | 704 ++++++++++++++++++
+ 2 files changed, 710 insertions(+)
  create mode 100644 arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dts
 
 diff --git a/Documentation/devicetree/bindings/arm/rockchip.yaml b/Documentation/devicetree/bindings/arm/rockchip.yaml
@@ -29,10 +29,10 @@ index 5f7c6c4aa..73b828bd5 100644
            - const: friendlyarm,nanopc-t6
 diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dts b/arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dts
 new file mode 100644
-index 000000000..f2eb24eb2
+index 000000000..00b217296
 --- /dev/null
 +++ b/arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dts
-@@ -0,0 +1,706 @@
+@@ -0,0 +1,704 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +
 +/dts-v1/;
@@ -265,8 +265,6 @@ index 000000000..f2eb24eb2
 +};
 +
 +&i2c6 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&i2c6m3_xfer>;
 +	status = "okay";
 +
 +	hym8563: rtc@51 {
@@ -319,7 +317,7 @@ index 000000000..f2eb24eb2
 +
 +	hym8563 {
 +		hym8563_int: hym8563-int {
-+			rockchip,pins = <0 RK_PB0 RK_FUNC_GPIO &pcfg_pull_none>;
++			rockchip,pins = <0 RK_PB0 RK_FUNC_GPIO &pcfg_pull_up>;
 +		};
 +	};
 +
