@@ -1,4 +1,4 @@
-From 1ba2d24632cd66f380863c2f4b8cbaea40211bfb Mon Sep 17 00:00:00 2001
+From 3900f99e33d4ecf1876b29d9b988e4d2eef7a610 Mon Sep 17 00:00:00 2001
 From: John Clark <inindev@gmail.com>
 Date: Sat, 16 Dec 2023 00:27:59 +0000
 Subject: [PATCH 2/2] nanopi-r6c device tree
@@ -7,8 +7,8 @@ Signed-off-by: John Clark <inindev@gmail.com>
 ---
  arch/arm/dts/Makefile                       |   1 +
  arch/arm/dts/rk3588s-nanopi-r6c-u-boot.dtsi |  15 +
- arch/arm/dts/rk3588s-nanopi-r6c.dts         | 710 ++++++++++++++++++++
- 3 files changed, 726 insertions(+)
+ arch/arm/dts/rk3588s-nanopi-r6c.dts         | 732 ++++++++++++++++++++
+ 3 files changed, 748 insertions(+)
  create mode 100644 arch/arm/dts/rk3588s-nanopi-r6c-u-boot.dtsi
  create mode 100644 arch/arm/dts/rk3588s-nanopi-r6c.dts
 
@@ -47,10 +47,10 @@ index 0000000000..3b2666b9ec
 +};
 diff --git a/arch/arm/dts/rk3588s-nanopi-r6c.dts b/arch/arm/dts/rk3588s-nanopi-r6c.dts
 new file mode 100644
-index 0000000000..cff573d4b3
+index 0000000000..44afda035b
 --- /dev/null
 +++ b/arch/arm/dts/rk3588s-nanopi-r6c.dts
-@@ -0,0 +1,710 @@
+@@ -0,0 +1,732 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +
 +/dts-v1/;
@@ -81,38 +81,39 @@ index 0000000000..cff573d4b3
 +		pinctrl-0 = <&gpio_leds>;
 +
 +		sys: led-sys {
-+			label = "sys";
 +			color = <LED_COLOR_ID_RED>;
 +			default-state = "off";
 +			function = LED_FUNCTION_HEARTBEAT;
 +			gpios = <&gpio1 RK_PC1 GPIO_ACTIVE_HIGH>;
++			label = "sys";
 +			linux,default-trigger = "heartbeat";
 +		};
 +
 +		wan: led-wan {
-+			label = "wan";
 +			color = <LED_COLOR_ID_GREEN>;
 +			default-state = "off";
 +			function = LED_FUNCTION_WAN;
 +			gpios = <&gpio1 RK_PC2 GPIO_ACTIVE_HIGH>;
++			label = "wan";
 +			linux,default-trigger = "stmmac-0:01:link";
 +		};
 +
 +		lan: led-lan {
-+			label = "lan";
 +			color = <LED_COLOR_ID_GREEN>;
 +			default-state = "off";
 +			function = LED_FUNCTION_LAN;
 +			gpios = <&gpio1 RK_PC3 GPIO_ACTIVE_HIGH>;
++			label = "lan";
 +			linux,default-trigger = "r8169-3-3100:00:link";
 +		};
 +
 +		led1: led-led1 {
-+			label = "led1";
 +			color = <LED_COLOR_ID_GREEN>;
 +			default-state = "off";
-+			function = LED_FUNCTION_INDICATOR;
++			function = LED_FUNCTION_DISK_ACTIVITY;
 +			gpios = <&gpio1 RK_PC4 GPIO_ACTIVE_HIGH>;
++			label = "led1";
++			linux,default-trigger = "disk-activity";
 +		};
 +	};
 +
@@ -122,28 +123,28 @@ index 0000000000..cff573d4b3
 +		gpio = <&gpio1 RK_PD2 GPIO_ACTIVE_HIGH>;
 +		pinctrl-names = "default";
 +		pinctrl-0 = <&typec5v_pwren>;
-+		regulator-name = "vbus_typec";
 +		regulator-min-microvolt = <5000000>;
 +		regulator-max-microvolt = <5000000>;
++		regulator-name = "vbus_typec";
 +		vin-supply = <&vcc5v0_sys>;
 +	};
 +
 +	vcc5v0_sys: vcc5v0-sys-regulator {
 +		compatible = "regulator-fixed";
-+		regulator-name = "vcc5v0_sys";
 +		regulator-always-on;
 +		regulator-boot-on;
 +		regulator-min-microvolt = <5000000>;
 +		regulator-max-microvolt = <5000000>;
++		regulator-name = "vcc5v0_sys";
 +	};
 +
 +	vcc3v3_pcie2x1l1: vcc3v3-pcie2x1l1 {
 +		compatible = "regulator-fixed";
-+		regulator-name = "vcc3v3_pcie2x1l1";
 +		regulator-always-on;
 +		regulator-boot-on;
 +		regulator-min-microvolt = <3300000>;
 +		regulator-max-microvolt = <3300000>;
++		regulator-name = "vcc3v3_pcie2x1l1";
 +		vin-supply = <&vcc_3v3_s3>;
 +	};
 +
@@ -151,12 +152,26 @@ index 0000000000..cff573d4b3
 +		compatible = "regulator-fixed";
 +		enable-active-high;
 +		gpios = <&gpio3 RK_PC6 GPIO_ACTIVE_HIGH>;
-+		regulator-name = "vcc3v3_pcie2x1l2";
 +		regulator-boot-on;
 +		regulator-min-microvolt = <1800000>;
 +		regulator-max-microvolt = <1800000>;
++		regulator-name = "vcc3v3_pcie2x1l2";
 +		startup-delay-us = <50000>;
 +		vin-supply = <&vcc5v0_sys>;
++	};
++
++	vcc3v3_sd_s0: vcc3v3-sd-s0-regulator {
++		compatible = "regulator-fixed";
++		enable-active-high;
++		gpio = <&gpio4 RK_PB4 GPIO_ACTIVE_HIGH>;
++		pinctrl-names = "default";
++		pinctrl-0 = <&sd_s0_pwr>;
++		regulator-always-on;
++		regulator-boot-on;
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		regulator-name = "vcc3v3_sd_s0";
++		vin-supply = <&vcc_3v3_s3>;
 +	};
 +};
 +
@@ -205,27 +220,14 @@ index 0000000000..cff573d4b3
 +	phy-handle = <&rgmii_phy1>;
 +	phy-mode = "rgmii";
 +	pinctrl-0 = <&gmac1_miim
-+				 &gmac1_tx_bus2
-+				 &gmac1_rx_bus2
-+				 &gmac1_rgmii_clk
-+				 &gmac1_rgmii_bus>;
++		     &gmac1_tx_bus2
++		     &gmac1_rx_bus2
++		     &gmac1_rgmii_clk
++		     &gmac1_rgmii_bus>;
 +	pinctrl-names = "default";
 +	tx_delay = <0x3a>;
 +	rx_delay = <0x3e>;
 +	status = "okay";
-+};
-+
-+&mdio1 {
-+	rgmii_phy1: ethernet-phy@1 {
-+		/* RTL8211F */
-+		compatible = "ethernet-phy-id001c.c916";
-+		reg = <0x1>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&rtl8211f_rst>;
-+		reset-assert-us = <20000>;
-+		reset-deassert-us = <100000>;
-+		reset-gpios = <&gpio3 RK_PB7 GPIO_ACTIVE_LOW>;
-+	};
 +};
 +
 +&i2c0 {
@@ -305,7 +307,20 @@ index 0000000000..cff573d4b3
 +	};
 +};
 +
-+// 2.5 ethernet (mux 2)
++&mdio1 {
++	rgmii_phy1: ethernet-phy@1 {
++		/* rtl8211f */
++		compatible = "ethernet-phy-id001c.c916";
++		reg = <0x1>;
++		pinctrl-names = "default";
++		pinctrl-0 = <&rtl8211f_rst>;
++		reset-assert-us = <20000>;
++		reset-deassert-us = <100000>;
++		reset-gpios = <&gpio3 RK_PB7 GPIO_ACTIVE_LOW>;
++	};
++};
++
++/* 2.5 ethernet */
 +&pcie2x1l1 {
 +	pinctrl-names = "default";
 +	pinctrl-0 = <&pcie2_1_rst>;
@@ -314,7 +329,7 @@ index 0000000000..cff573d4b3
 +	status = "okay";
 +};
 +
-+// m.2 nvme (mux 0)
++/* m.2 nvme */
 +&pcie2x1l2 {
 +	pinctrl-names = "default";
 +	pinctrl-0 = <&pcie2_2_rst>;
@@ -355,15 +370,16 @@ index 0000000000..cff573d4b3
 +		};
 +	};
 +
++	sdmmc {
++		sd_s0_pwr: sd-s0-pwr {
++			rockchip,pins = <4 RK_PB4 RK_FUNC_GPIO &pcfg_pull_up>;
++		};
++	};
++
 +	usb-typec {
 +		typec5v_pwren: typec5v-pwren {
 +			rockchip,pins = <1 RK_PD2 RK_FUNC_GPIO &pcfg_pull_none>;
 +		};
-+
-+		/omit-if-no-ref/
-+		usbc0_int: usbc0-int {
-+			rockchip,pins = <0 RK_PD3 RK_FUNC_GPIO &pcfg_pull_up>;
-+		};		
 +	};
 +};
 +
@@ -374,6 +390,7 @@ index 0000000000..cff573d4b3
 +
 +&sdhci {
 +	bus-width = <8>;
++	full-pwr-cycle-in-suspend;
 +	no-sdio;
 +	no-sd;
 +	non-removable;
@@ -392,7 +409,7 @@ index 0000000000..cff573d4b3
 +	no-mmc;
 +	no-sdio;
 +	sd-uhs-sdr104;
-+	vmmc-supply = <&vcc_3v3_s3>;
++	vmmc-supply = <&vcc3v3_sd_s0>;
 +	vqmmc-supply = <&vccio_sd_s0>;
 +	status = "okay";
 +};
@@ -412,7 +429,8 @@ index 0000000000..cff573d4b3
 +		interrupts = <7 IRQ_TYPE_LEVEL_LOW>;
 +		pinctrl-names = "default";
 +		pinctrl-0 = <&pmic_pins>, <&rk806_dvs1_null>,
-+				<&rk806_dvs2_null>, <&rk806_dvs3_null>;
++			    <&rk806_dvs2_null>, <&rk806_dvs3_null>;
++		pmic-reset-func = <1>;
 +		spi-max-frequency = <1000000>;
 +
 +		vcc1-supply = <&vcc5v0_sys>;
@@ -435,7 +453,7 @@ index 0000000000..cff573d4b3
 +		#gpio-cells = <2>;
 +
 +		rk806_dvs1_null: dvs1-null-pins {
-+			pins = "gpio_pwrctrl2";
++			pins = "gpio_pwrctrl1";
 +			function = "pin_fun0";
 +		};
 +
@@ -758,6 +776,10 @@ index 0000000000..cff573d4b3
 +};
 +
 +&usb_host1_ohci {
++	status = "okay";
++};
++
++&wdt {
 +	status = "okay";
 +};
 +
