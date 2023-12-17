@@ -66,10 +66,6 @@ main() {
     local uboot_itb=$(download "$cache" 'https://github.com/inindev/nanopi-r6/releases/download/v12-6.7-rc5/u-boot.itb')
     [ -f "$uboot_itb" ] || { echo "unable to fetch: $uboot_itb"; exit 4; }
 
-    # dtb
-    local dtb=$(download "$cache" "https://github.com/inindev/nanopi-r6/releases/download/v12.6.7-rc5/rk3588s-nanopi-r6c.dtb")
-    [ -f "$dtb" ] || { echo "unable to fetch $dtb"; exit 4; }
-
     # setup media
     if [ ! -b "$media" ]; then
         print_hdr 'creating image file'
@@ -118,9 +114,6 @@ main() {
     local lfwn=$(basename "$lfw")
     local lfwbn="${lfwn%%.*}"
     tar -C "$mountpt/usr/lib/firmware" --strip-components=1 --wildcards -xavf "$lfw" "$lfwbn/rockchip" "$lfwbn/rtl_nic"
-
-    # install device tree
-    install -vm 644 "$dtb" "$mountpt/boot"
 
     # install debian linux from deb packages (debootstrap)
     print_hdr 'installing root filesystem from debian.org'
