@@ -1,4 +1,4 @@
-From 9f3acbe7457b678fbc89daee4f04cc52877b138f Mon Sep 17 00:00:00 2001
+From 35c1c5b379298f60006d6307227f321f97d3d9e1 Mon Sep 17 00:00:00 2001
 From: John Clark <inindev@gmail.com>
 Date: Sat, 16 Dec 2023 00:27:59 +0000
 Subject: [PATCH 2/2] nanopi-r6c device tree
@@ -7,13 +7,13 @@ Signed-off-by: John Clark <inindev@gmail.com>
 ---
  arch/arm/dts/Makefile                       |   1 +
  arch/arm/dts/rk3588s-nanopi-r6c-u-boot.dtsi |  15 +
- arch/arm/dts/rk3588s-nanopi-r6c.dts         | 743 ++++++++++++++++++++
- 3 files changed, 759 insertions(+)
+ arch/arm/dts/rk3588s-nanopi-r6c.dts         | 760 ++++++++++++++++++++
+ 3 files changed, 776 insertions(+)
  create mode 100644 arch/arm/dts/rk3588s-nanopi-r6c-u-boot.dtsi
  create mode 100644 arch/arm/dts/rk3588s-nanopi-r6c.dts
 
 diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
-index 1be08c5fdc..42d6fe0834 100644
+index 9d28a485be..15fd24b72f 100644
 --- a/arch/arm/dts/Makefile
 +++ b/arch/arm/dts/Makefile
 @@ -192,6 +192,7 @@ dtb-$(CONFIG_ROCKCHIP_RK3588) += \
@@ -47,10 +47,10 @@ index 0000000000..3b2666b9ec
 +};
 diff --git a/arch/arm/dts/rk3588s-nanopi-r6c.dts b/arch/arm/dts/rk3588s-nanopi-r6c.dts
 new file mode 100644
-index 0000000000..fafa6a8959
+index 0000000000..3b871a628f
 --- /dev/null
 +++ b/arch/arm/dts/rk3588s-nanopi-r6c.dts
-@@ -0,0 +1,743 @@
+@@ -0,0 +1,760 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +
 +/dts-v1/;
@@ -148,7 +148,7 @@ index 0000000000..fafa6a8959
 +		vin-supply = <&vcc5v0_sys>;
 +	};
 +
-+	vcc_3v3_s0: vcc-3v3-s0 {
++	vcc_3v3_s0: vcc-3v3-s0-regulator {
 +		compatible = "regulator-fixed";
 +		regulator-always-on;
 +		regulator-boot-on;
@@ -171,7 +171,19 @@ index 0000000000..fafa6a8959
 +		vin-supply = <&vcc_3v3_s3>;
 +	};
 +
-+	vcc5v0_usb_otg0: vbus-typec-regulator {
++	vcc5v0_host20: vcc5v0-host20-regulator {
++		compatible = "regulator-fixed";
++		enable-active-high;
++		gpios = <&gpio4 RK_PB5 GPIO_ACTIVE_HIGH>;
++		pinctrl-names = "default";
++		pinctrl-0 = <&vcc5v0_host20_pwren>;
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++		regulator-name = "vcc5v0_host20";
++		vin-supply = <&vcc5v0_sys>;
++	};
++
++	vcc5v0_usb_otg0: vcc5v0-usb-otg0-regulator {
 +		compatible = "regulator-fixed";
 +		enable-active-high;
 +		gpio = <&gpio1 RK_PD2 GPIO_ACTIVE_HIGH>;
@@ -388,6 +400,10 @@ index 0000000000..fafa6a8959
 +	usb {
 +		usb_otg0_pwren: usb-otg0-pwren {
 +			rockchip,pins = <1 RK_PD2 RK_FUNC_GPIO &pcfg_pull_none>;
++		};
++
++		vcc5v0_host20_pwren: vcc5v0-host20-pwren {
++			rockchip,pins = <4 RK_PB5 RK_FUNC_GPIO &pcfg_pull_none>;
 +		};
 +	};
 +};
@@ -758,6 +774,7 @@ index 0000000000..fafa6a8959
 +};
 +
 +&u2phy2_host {
++	phy-supply = <&vcc5v0_host20>;
 +	status = "okay";
 +};
 +
@@ -766,6 +783,7 @@ index 0000000000..fafa6a8959
 +};
 +
 +&u2phy3_host {
++	phy-supply = <&vcc5v0_usb_otg0>;
 +	status = "okay";
 +};
 +
@@ -782,18 +800,17 @@ index 0000000000..fafa6a8959
 +	status = "okay";
 +};
 +
-+//&usb_host1_ehci {
-+//	status = "okay";
-+//};
++&usb_host1_ehci {
++	status = "okay";
++};
 +
-+//&usb_host1_ohci {
-+//	status = "okay";
-+//};
++&usb_host1_ohci {
++	status = "okay";
++};
 +
 +&wdt {
 +	status = "okay";
 +};
-+
 -- 
 2.39.2
 
