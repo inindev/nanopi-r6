@@ -1,4 +1,4 @@
-From 35c1c5b379298f60006d6307227f321f97d3d9e1 Mon Sep 17 00:00:00 2001
+From 09b3b820e0e322a2d819d24445d9d446761def28 Mon Sep 17 00:00:00 2001
 From: John Clark <inindev@gmail.com>
 Date: Sat, 16 Dec 2023 00:27:59 +0000
 Subject: [PATCH 2/2] nanopi-r6c device tree
@@ -7,8 +7,8 @@ Signed-off-by: John Clark <inindev@gmail.com>
 ---
  arch/arm/dts/Makefile                       |   1 +
  arch/arm/dts/rk3588s-nanopi-r6c-u-boot.dtsi |  15 +
- arch/arm/dts/rk3588s-nanopi-r6c.dts         | 760 ++++++++++++++++++++
- 3 files changed, 776 insertions(+)
+ arch/arm/dts/rk3588s-nanopi-r6c.dts         | 770 ++++++++++++++++++++
+ 3 files changed, 786 insertions(+)
  create mode 100644 arch/arm/dts/rk3588s-nanopi-r6c-u-boot.dtsi
  create mode 100644 arch/arm/dts/rk3588s-nanopi-r6c.dts
 
@@ -47,10 +47,10 @@ index 0000000000..3b2666b9ec
 +};
 diff --git a/arch/arm/dts/rk3588s-nanopi-r6c.dts b/arch/arm/dts/rk3588s-nanopi-r6c.dts
 new file mode 100644
-index 0000000000..3b871a628f
+index 0000000000..d560e10bba
 --- /dev/null
 +++ b/arch/arm/dts/rk3588s-nanopi-r6c.dts
-@@ -0,0 +1,760 @@
+@@ -0,0 +1,770 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +
 +/dts-v1/;
@@ -117,49 +117,60 @@ index 0000000000..3b871a628f
 +		};
 +	};
 +
-+	vcc5v0_sys: vcc5v0-sys-regulator {
++	vdd_usbc: vdd-usbc-regulator {
 +		compatible = "regulator-fixed";
++		regulator-name = "vdd_usbc";
 +		regulator-always-on;
 +		regulator-boot-on;
 +		regulator-min-microvolt = <5000000>;
 +		regulator-max-microvolt = <5000000>;
++	};
++
++	vcc5v0_sys: vcc5v0-sys-regulator {
++		compatible = "regulator-fixed";
 +		regulator-name = "vcc5v0_sys";
++		regulator-always-on;
++		regulator-boot-on;
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++		vin-supply = <&vdd_usbc>;
 +	};
 +
 +	vcc_1v1_nldo_s3: vcc-1v1-nldo-s3-regulator {
 +		compatible = "regulator-fixed";
++		regulator-name = "vcc_1v1_nldo_s3";
 +		regulator-always-on;
 +		regulator-boot-on;
 +		regulator-min-microvolt = <1100000>;
 +		regulator-max-microvolt = <1100000>;
-+		regulator-name = "vcc_1v1_nldo_s3";
 +		vin-supply = <&vcc5v0_sys>;
 +	};
 +
 +	vcc_3v3_pcie20: vcc3v3-pcie20-regulator {
 +		compatible = "regulator-fixed";
++		regulator-name = "vcc_3v3_pcie20";
 +		enable-active-high;
 +		gpios = <&gpio3 RK_PC6 GPIO_ACTIVE_HIGH>;
 +		regulator-boot-on;
 +		regulator-min-microvolt = <1800000>;
 +		regulator-max-microvolt = <1800000>;
-+		regulator-name = "vcc_3v3_pcie20";
 +		startup-delay-us = <50000>;
 +		vin-supply = <&vcc5v0_sys>;
 +	};
 +
 +	vcc_3v3_s0: vcc-3v3-s0-regulator {
 +		compatible = "regulator-fixed";
++		regulator-name = "vcc_3v3_s0";
 +		regulator-always-on;
 +		regulator-boot-on;
 +		regulator-min-microvolt = <3300000>;
 +		regulator-max-microvolt = <3300000>;
-+		regulator-name = "vcc_3v3_s0";
 +		vin-supply = <&vcc_3v3_s3>;
 +	};
 +
 +	vcc_3v3_sd_s0: vcc-3v3-sd-s0-regulator {
 +		compatible = "regulator-fixed";
++		regulator-name = "vcc_3v3_sd_s0";
 +		enable-active-high;
 +		gpio = <&gpio4 RK_PB4 GPIO_ACTIVE_HIGH>;
 +		pinctrl-names = "default";
@@ -167,31 +178,30 @@ index 0000000000..3b871a628f
 +		regulator-boot-on;
 +		regulator-min-microvolt = <3300000>;
 +		regulator-max-microvolt = <3300000>;
-+		regulator-name = "vcc_3v3_sd_s0";
 +		vin-supply = <&vcc_3v3_s3>;
 +	};
 +
 +	vcc5v0_host20: vcc5v0-host20-regulator {
 +		compatible = "regulator-fixed";
++		regulator-name = "vcc5v0_host20";
 +		enable-active-high;
 +		gpios = <&gpio4 RK_PB5 GPIO_ACTIVE_HIGH>;
 +		pinctrl-names = "default";
 +		pinctrl-0 = <&vcc5v0_host20_pwren>;
 +		regulator-min-microvolt = <5000000>;
 +		regulator-max-microvolt = <5000000>;
-+		regulator-name = "vcc5v0_host20";
 +		vin-supply = <&vcc5v0_sys>;
 +	};
 +
 +	vcc5v0_usb_otg0: vcc5v0-usb-otg0-regulator {
 +		compatible = "regulator-fixed";
++		regulator-name = "vcc5v0_usb_otg0";
 +		enable-active-high;
 +		gpio = <&gpio1 RK_PD2 GPIO_ACTIVE_HIGH>;
 +		pinctrl-names = "default";
 +		pinctrl-0 = <&usb_otg0_pwren>;
 +		regulator-min-microvolt = <5000000>;
 +		regulator-max-microvolt = <5000000>;
-+		regulator-name = "vcc5v0_usb_otg0";
 +		vin-supply = <&vcc5v0_sys>;
 +	};
 +};
@@ -812,5 +822,5 @@ index 0000000000..3b871a628f
 +	status = "okay";
 +};
 -- 
-2.39.2
+2.43.0
 
